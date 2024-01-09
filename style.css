@@ -63,6 +63,7 @@ h1 {
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
+  margin-left: 70%;
 }
 
 #next:hover {
