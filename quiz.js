@@ -36,7 +36,6 @@ const optionsContainer = document.querySelector("#options");
 const score = document.querySelector("#score");
 let selectedElement;
 let correctAnswer;
-//* Append Question
 
 //* Append Options
 function displayQuestions() {
@@ -62,11 +61,13 @@ function displayQuestions() {
     });
   });
 }
+
 function removeBackgroundColor() {
   document.querySelectorAll("#options > button").forEach((opt) => {
     opt.style.backgroundColor = "buttonface";
   });
 }
+
 document.getElementById("next").addEventListener("click", function () {
   document.getElementById("next").innerText = "next";
   if (selectedElement == correctAnswer) {
@@ -78,10 +79,6 @@ document.getElementById("next").addEventListener("click", function () {
   }
   selectedElement = "";
   optionsContainer.textContent = "";
-  // document.querySelectorAll("#options > button").forEach((opt) => {
-  //   opt.remove();
-  // });
-
   index++;
   if (index == questionJSON.length) {
     score.textContent = `Score : ${scoreNum}`;
