@@ -27,51 +27,75 @@ const questionJSON = [
   },
 ];
 
-let index = 1;
-const questionObj = {
-  correctAnswer: "Three",
-  options: ["Two", "Three", "Four", "Five"],
-  question: "How many pieces of bun are in a Mcdonald's Big Mac?",
-};
-
+let index = 0;
 let scoreNum = 0;
 
 //* Fetch Details
 const questionSection = document.querySelector("#question");
 const optionsContainer = document.querySelector("#options");
 const score = document.querySelector("#score");
-
+let selectedElement;
+let correctAnswer;
 //* Append Question
 
-shuffleOptions(options);
 //* Append Options
 function displayQuestions() {
-  const { correctAnswer, options, question } = questionJSON[index];
+  const { options, question } = questionJSON[index];
+  ({ correctAnswer } = questionJSON[index]);
   questionSection.textContent = question;
+  shuffleOptions(options);
   options.forEach((opt) => {
     const newElement = document.createElement("button");
     newElement.textContent = opt;
     optionsContainer.appendChild(newElement);
 
     newElement.addEventListener("click", () => {
-      if (opt == correctAnswer) {
-        scoreNum++;
-      } else {
-        scoreNum -= 0.25;
-      }
-      // optionsContainer.textContent = "";
-      score.textContent = `Score : ${scoreNum}`;
+      removeBackgroundColor();
+      newElement.style.backgroundColor = "#f57424";
+      // if (opt == correctAnswer) {
+      //   scoreNum++;
+      // } else {
+      //   scoreNum -= 0.25;
+      // }
+      selectedElement = opt;
+      console.log(selectedElement);
     });
   });
 }
-
+function removeBackgroundColor() {
+  document.querySelectorAll("#options > button").forEach((opt) => {
+    opt.style.backgroundColor = "buttonface";
+  });
+}
 document.getElementById("next").addEventListener("click", function () {
+  document.getElementById("next").innerText = "next";
+  if (selectedElement == correctAnswer) {
+    scoreNum++;
+  } else if (!selectedElement) {
+    scoreNum;
+  } else {
+    scoreNum -= 0.25;
+  }
+  selectedElement = "";
+  optionsContainer.textContent = "";
+  // document.querySelectorAll("#options > button").forEach((opt) => {
+  //   opt.remove();
+  // });
+
   index++;
   if (index == questionJSON.length) {
     score.textContent = `Score : ${scoreNum}`;
+    document.getElementById("next").innerText = "Restart";
     window.alert("Quiz Completed Check Your Score");
+    index = -1;
+    return;
   }
-  document.getElementById("next").remove();
+
+  score.textContent = `Score : ${scoreNum}`;
+  if (index == 0) {
+    scoreNum = 0;
+    score.textContent = "";
+  }
   displayQuestions();
 });
 /* 
